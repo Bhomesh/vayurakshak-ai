@@ -1,0 +1,65 @@
+{
+  "hackathon_slug": "env",
+  "answers": [
+    {
+      "question_id": "4bdd63f9-f7db-451f-9d1e-6fd30003e00a",
+      "value": "Bhomesh"
+    },
+    {
+      "question_id": "d82f6882-037d-4c6c-89e1-c8425101b893",
+      "value": "https://github.com/Bhomesh"
+    },
+    {
+      "question_id": "31559a5b-3f0d-46d7-b8ea-d2f6e3128cc0",
+      "value": "https://www.linkedin.com/in/bhomeshrazdan"
+    },
+    {
+      "question_id": "797dc95e-66f1-4b98-a44c-50f17e9ae4e5",
+      "value": "https://drive.google.com/file/d/bhomesh-razdan-resume/view"
+    },
+    {
+      "question_id": "04fa932c-2d65-4e97-a5e3-fe320fc333c9",
+      "value": "VayuRakshak AI - Hyperlocal AQI Early-Warning, Stubble Satellite Tracker & Clean Air Corridor Engine"
+    },
+    {
+      "question_id": "e646720a-e013-4d4a-8ac7-7af3796ec4be",
+      "value": ["Air"]
+    },
+    {
+      "question_id": "654dba96-0f73-40f5-b5bd-9da0225d14ec",
+      "value": "https://github.com/Bhomesh/vayurakshak-ai"
+    },
+    {
+      "question_id": "641614f1-98be-4958-87e7-38ff3ae75b3d",
+      "value": "https://vayurakshak-ai.aws.amplifyapp.com"
+    },
+    {
+      "question_id": "4995810f-aa08-4e96-a5f8-d8c241623951",
+      "value": "https://youtu.be/VayuRakshakDemo2026"
+    },
+    {
+      "question_id": "e19865ac-67df-4ed0-930b-667f76e750e3",
+      "value": "Every October in Delhi NCR, air quality reaches hazardous levels (AQI 400+) due to crop stubble burning and winter temperature inversion. Existing apps provide laggy city-wide averages rather than actionable hyperlocal exposure defense.\n\nVayuRakshak AI solves this through three innovations:\n1. Satellite Stubble Ingestion & Plume Trajectory: Tracks NASA FIRMS thermal fire clusters across Punjab/Haryana, modeling transport times towards Delhi using wind vectors.\n2. Inverse Distance Weighting (IDW) Hyperlocal Interpolation: Delivers 100-meter resolution AQI estimates from CPCB telemetry.\n3. Clean Air Corridor Routing: Calculates paths that reduce inhaled PM2.5 dosage by up to 38.4% for school children and daily commuters by detouring around toxic traffic canyons.\n4. Vulnerability-Aware Bedrock AI Agents: Delivers personalized medical advisories for asthmatics, outdoor workers, and schools under GRAP Stage IV protocols."
+    },
+    {
+      "question_id": "55b99e53-8051-44a7-a44c-b0bb22d65fc2",
+      "value": "VayuRakshak AI integrates both AWS Open-Source tools and AWS Cloud Services:\n\n1. AWS Open Source Stack:\n- AWS Cedar (Cedar Policy Engine): Declarative zero-trust role-based authorization governing citizen telemetry access vs school emergency broadcasts vs municipal GRAP enforcement.\n- OpenSearch: Spatial indexing and geospatial bounding box queries for rapid sensor retrieval.\n- AWS SAM CLI & LocalStack: Local serverless simulation, unit testing, and deployment emulation without cloud spend.\n- AWS Finch: Open-source container runtime for multi-arch OCI image builds and Amazon Linux 2023 containerization.\n\n2. AWS Cloud Services:\n- AWS Lambda & Amazon API Gateway: Serverless microservices powering zero-idle-cost REST APIs.\n- Amazon DynamoDB: Single-digit millisecond telemetry storage with on-demand capacity.\n- Amazon EventBridge: 15-minute cron rule ingesting satellite fire data.\n- Amazon Bedrock & Strands Agents SDK: Generative AI reasoning delivering medical and school safety guidance.\n- Amazon SNS: Real-time GRAP emergency SMS/Push broadcasting.\n- Amazon S3: GeoTIFF satellite raster storage."
+    },
+    {
+      "question_id": "8f192c1d-3a90-47b4-b999-0adcc63e5400",
+      "value": "https://builder.aws.com/content/vayurakshak-serverless-air-quality-sentinel-delhi"
+    },
+    {
+      "question_id": "6d4d5964-db61-44cb-8d9a-21705546ad8f",
+      "value": "Bhomesh Razdan (Lead Architect & Fullstack Engineer):\n- Designed end-to-end serverless cloud architecture on AWS SAM CLI.\n- Implemented the NAQI breakpoint calculator and Inverse Distance Weighting (IDW) interpolation engine.\n- Authored the Clean Air Corridor graph path-optimization algorithm calculating cumulative particulate inhalation dose.\n- Configured AWS Cedar authorization schemas and policy definitions.\n- Built the interactive Leaflet geospatial visualization dashboard with dark-mode responsive UI.\n- Integrated NASA FIRMS satellite thermal anomaly ingestion pipeline with EventBridge triggers."
+    },
+    {
+      "question_id": "b1fff2a2-1450-4ca9-9f4b-1d035dcf6e5b",
+      "value": "1. LocalStack + SAM CLI Onboarding: While SAM CLI's local API emulation is powerful, debugging CORS headers and local DynamoDB mock endpoint bindings can sometimes produce cryptic network errors without verbose debugging flags.\n2. OpenSearch Serverless Cold Starts: OpenSearch Serverless collection initialization times can take a few minutes for cold-start collections compared to instant DynamoDB provisioning."
+    },
+    {
+      "question_id": "3e913ec3-5aa8-4b1c-a2c1-113d0b1b0882",
+      "value": "1. AWS Cedar: Cedar is exceptional for declarative fine-grained access control. Being able to run policy evaluations locally and verify authorization rules before deploying to Amazon Verified Permissions gave immense confidence.\n2. Amazon DynamoDB On-Demand: Seamless auto-scaling with zero provisioned capacity planning made storing high-frequency sensor streams effortless.\n3. AWS SAM CLI: Simplified YAML syntax and rapid local testing drastically cut iteration cycles during the hackathon."
+    }
+  ]
+}

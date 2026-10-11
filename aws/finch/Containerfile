@@ -1,0 +1,30 @@
+# ==============================================================================
+# VayuRakshak AI - AWS Finch / Containerfile
+# Open Source Tool: AWS Finch (Open source container development tool)
+# Author: Bhomesh Razdan (Lead Architect)
+# ==============================================================================
+
+FROM public.ecr.aws/amazonlinux/amazonlinux:2023
+
+# Install Python 3.12 and runtime utilities
+RUN dnf update -y && \
+    dnf install -y python3.12 python3.12-pip shadow-utils && \
+    dnf clean all
+
+# Create non-root unprivileged container user
+RUN useradd -m -u 1001 vayurakshak
+WORKDIR /app
+
+# Copy application source code
+COPY --chown=vayurakshak:vayurakshak src/ /app/src/
+COPY --chown=vayurakshak:vayurakshak frontend/ /app/frontend/
+COPY --chown=vayurakshak:vayurakshak aws/ /app/aws/
+
+USER vayurakshak
+
+EXPOSE 8080
+
+HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
+  CMD python3 -c "import urllib.request; urllib.request.urlopen('http://localhost:8080/api/stations')" || exit 1
+
+ENTRYPOINT ["python3.12", "-m", "src.server", "8080"]

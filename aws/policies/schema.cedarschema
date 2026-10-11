@@ -1,0 +1,85 @@
+{
+  "VayuRakshak": {
+    "entityTypes": {
+      "User": {
+        "memberOfTypes": [
+          "Role"
+        ],
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "name": { "type": "String" },
+            "city": { "type": "String" }
+          }
+        }
+      },
+      "Role": {
+        "memberOfTypes": []
+      },
+      "Resource": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "id": { "type": "String" }
+          }
+        }
+      }
+    },
+    "actions": {
+      "ViewAQI": {
+        "appliesTo": {
+          "principalTypes": ["Role", "User"],
+          "resourceTypes": ["Resource"]
+        }
+      },
+      "PlanCleanRoute": {
+        "appliesTo": {
+          "principalTypes": ["Role", "User"],
+          "resourceTypes": ["Resource"]
+        }
+      },
+      "GetHealthAdvisory": {
+        "appliesTo": {
+          "principalTypes": ["Role", "User"],
+          "resourceTypes": ["Resource"]
+        }
+      },
+      "ReportIncident": {
+        "appliesTo": {
+          "principalTypes": ["Role", "User"],
+          "resourceTypes": ["Resource"]
+        }
+      },
+      "BroadcastSchoolAdvisory": {
+        "appliesTo": {
+          "principalTypes": ["Role", "User"],
+          "resourceTypes": ["Resource"]
+        }
+      },
+      "TriggerRemoteClasses": {
+        "appliesTo": {
+          "principalTypes": ["Role", "User"],
+          "resourceTypes": ["Resource"]
+        }
+      },
+      "DeclareGRAPEmergency": {
+        "appliesTo": {
+          "principalTypes": ["Role", "User"],
+          "resourceTypes": ["Resource"]
+        }
+      },
+      "DispatchAntiSmogGun": {
+        "appliesTo": {
+          "principalTypes": ["Role", "User"],
+          "resourceTypes": ["Resource"]
+        }
+      },
+      "HaltConstruction": {
+        "appliesTo": {
+          "principalTypes": ["Role", "User"],
+          "resourceTypes": ["Resource"]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vayurakshak-ai"
+version = "1.0.0"
+description = "VayuRakshak AI: Hyperlocal AQI Early-Warning, Stubble Satellite Tracker & Clean Air Corridor Engine on AWS"
+authors = [
+  { name = "Bhomesh Razdan", email = "bhomeshrazdan@gmail.com" }
+]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["aws", "hackathon", "bharat-builds", "air-quality", "satellite", "stubble-burning", "delhi", "cedar", "sam-cli"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12"
+]
+
+[project.urls]
+Homepage = "https://github.com/Bhomesh/vayurakshak-ai"
+Hackathon = "https://www.wemakedevs.org/aws/env"

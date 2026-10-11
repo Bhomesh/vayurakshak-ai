@@ -1,0 +1,189 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  VayuRakshak AI - Serverless Architecture
+  Bharat Builds Tour: Environmental Hacks (WeMakeDevs x AWS)
+  Author: Bhomesh Razdan (Lead Architect)
+
+Globals:
+  Function:
+    Timeout: 15
+    MemorySize: 256
+    Runtime: python3.12
+    Environment:
+      Variables:
+        DYNAMODB_TABLE_AQI: !Ref AQITelemetryTable
+        DYNAMODB_TABLE_FIRES: !Ref StubbleFiresTable
+        SNS_ALERT_TOPIC_ARN: !Ref VayuRakshakAlertTopic
+  Api:
+    Cors:
+      AllowMethods: "'GET,POST,OPTIONS'"
+      AllowHeaders: "'Content-Type,Authorization,X-Principal-Role'"
+      AllowOrigin: "'*'"
+
+Resources:
+  # ============================================================================
+  # AWS API Gateway
+  # ============================================================================
+  VayuRakshakApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      Name: VayuRakshak-Serverless-API
+
+  # ============================================================================
+  # AWS Lambda Functions
+  # ============================================================================
+  StationsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../
+      Handler: src.lambda_handlers.handler_get_stations
+      Events:
+        GetStations:
+          Type: Api
+          Properties:
+            RestApiId: !Ref VayuRakshakApi
+            Path: /api/stations
+            Method: GET
+
+  HyperlocalAQIFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../
+      Handler: src.lambda_handlers.handler_estimate_hyperlocal
+      Events:
+        GetHyperlocal:
+          Type: Api
+          Properties:
+            RestApiId: !Ref VayuRakshakApi
+            Path: /api/aqi/estimate
+            Method: GET
+
+  StubbleFiresFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../
+      Handler: src.lambda_handlers.handler_get_stubble_fires
+      Events:
+        GetFires:
+          Type: Api
+          Properties:
+            RestApiId: !Ref VayuRakshakApi
+            Path: /api/stubble/fires
+            Method: GET
+
+  CleanAirRouterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../
+      Handler: src.lambda_handlers.handler_plan_clean_route
+      Events:
+        PlanRoutePost:
+          Type: Api
+          Properties:
+            RestApiId: !Ref VayuRakshakApi
+            Path: /api/route/clean
+            Method: POST
+        PlanRouteGet:
+          Type: Api
+          Properties:
+            RestApiId: !Ref VayuRakshakApi
+            Path: /api/route/clean
+            Method: GET
+
+  AdvisoryAgentFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../
+      Handler: src.lambda_handlers.handler_get_advisory
+      Events:
+        GetAdvisory:
+          Type: Api
+          Properties:
+            RestApiId: !Ref VayuRakshakApi
+            Path: /api/advisory
+            Method: GET
+
+  CedarAuthorizerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../
+      Handler: src.lambda_handlers.handler_cedar_authorize
+      Events:
+        AuthorizePost:
+          Type: Api
+          Properties:
+            RestApiId: !Ref VayuRakshakApi
+            Path: /api/auth/cedar
+            Method: POST
+
+  SatelliteIngestCronFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../
+      Handler: src.lambda_handlers.eventbridge_cron_worker
+      Events:
+        CronSchedule:
+          Type: Schedule
+          Properties:
+            Schedule: rate(15 minutes)
+            Name: VayuRakshak-15Min-Satellite-Ingest
+
+  # ============================================================================
+  # Amazon DynamoDB Tables
+  # ============================================================================
+  AQITelemetryTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: VayuRakshak-AQI-Telemetry
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: station_id
+          AttributeType: S
+        - AttributeName: timestamp
+          AttributeType: N
+      KeySchema:
+        - AttributeName: station_id
+          KeyType: HASH
+        - AttributeName: timestamp
+          KeyType: RANGE
+
+  StubbleFiresTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: VayuRakshak-Stubble-Fires
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: fire_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: fire_id
+          KeyType: HASH
+
+  # ============================================================================
+  # Amazon SNS Topic (GRAP Emergency Broadcasts)
+  # ============================================================================
+  VayuRakshakAlertTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: VayuRakshak-Emergency-Alerts
+      DisplayName: VayuRakshak Environmental Warning System
+
+  # ============================================================================
+  # Amazon S3 Bucket (Satellite Rasters & Reports)
+  # ============================================================================
+  SatelliteImageryBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "vayurakshak-satellite-rasters-${AWS::AccountId}"
+      VersioningConfiguration:
+        Status: Enabled
+
+Outputs:
+  ApiEndpoint:
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${VayuRakshakApi}.execute-api.${AWS::Region}.amazonaws.com/prod/"
+  AlertTopicArn:
+    Description: "SNS Alert Topic ARN"
+    Value: !Ref VayuRakshakAlertTopic
